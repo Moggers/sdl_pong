@@ -1,5 +1,5 @@
 all: clean main.o menu.o window.o textbox.o text.o net.o
-	clang++ net.o text.o textbox.o main.o menu.o window.o -lSDL2 -lSDL2_ttf -g -std=c++11
+	clang++ net.o text.o textbox.o main.o menu.o window.o -lSDL2 -lSDL2_ttf -lSDL2_net -g -std=c++11
 
 clean:
 	rm -rf *.o a.out

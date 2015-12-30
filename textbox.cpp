@@ -10,6 +10,7 @@ namespace Graphics
 		m_texture = NULL;
 		m_shown = 0;
 		m_active = 0;
+		m_editable = 0;
 		m_updated = 0;
 		m_border.x = x;
 		m_border.y = y;
@@ -46,7 +47,18 @@ namespace Graphics
 				break;
 			case SDL_TEXTINPUT:
 				if( !m_active ) break;
-				strcat( m_text, textevent->text );
+				update_text( textevent->text, 1 );
+				break;
+		}
+		return 0;
+	}
+
+	int Textbox::update_text( char * text, int append )
+	{
+				if( append )
+					strcat( m_text, text );
+				else
+					strcpy( m_text, text );
 				SDL_Color red = {150, 0, 0 };
 				m_surf = TTF_RenderText_Blended( Graphics::Text::g_font, m_text, red );
 				m_texture = SDL_CreateTextureFromSurface( Graphics::Window::g_ren, m_surf );
@@ -57,11 +69,8 @@ namespace Graphics
 				m_textsize.w = tw;
 				m_textsize.h = th;
 				m_updated = 1;
-				break;
-		}
 		return 0;
 	}
-
 	int Textbox::draw( void )
 	{
 		if( !m_shown ) return 1;
